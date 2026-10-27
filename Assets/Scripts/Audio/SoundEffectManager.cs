@@ -4,10 +4,10 @@ using UnityEngine.UI;
 public class SoundEffectManager : MonoBehaviour
 {
     static SoundEffectManager instance;
-    static AudioSource audioSource;
+    AudioSource audioSource;
     static SoundEffectLibrary soundEffectLibrary;
     Slider SFXSlider;
-    float sValue = 0.5f;
+    float sValue = 0.8f;
 
 
     void Awake()
@@ -15,6 +15,7 @@ public class SoundEffectManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+
             audioSource = GetComponent<AudioSource>();
             soundEffectLibrary = GetComponent<SoundEffectLibrary>();
             DontDestroyOnLoad(gameObject);
@@ -29,18 +30,19 @@ public class SoundEffectManager : MonoBehaviour
         AudioClip audioClip = soundEffectLibrary.GetRandomClip(soundName);
         if (audioClip != null) 
         {
-            audioSource.pitch = 1;
-            audioSource.PlayOneShot(audioClip);
+            instance.audioSource.pitch = 1;
+            instance.audioSource.PlayOneShot(audioClip);
         }
     }
 
     public static void SetVolume(float volume)
     {
-        audioSource.volume = volume;    
+        instance.audioSource.volume = volume;    
     }
 
     public void OnValueChanged()
     {
+
         SetVolume(SFXSlider.value);
         sValue = SFXSlider.value;
     }
@@ -54,7 +56,7 @@ public class SoundEffectManager : MonoBehaviour
 
     public static void PlayVoice(AudioClip ac, float pitch = 1f)
     {
-        audioSource.pitch = pitch;
-        audioSource.PlayOneShot(ac);
+        instance.audioSource.pitch = pitch;
+        instance.audioSource.PlayOneShot(ac);
     }
 }

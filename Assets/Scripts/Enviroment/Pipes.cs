@@ -3,6 +3,8 @@ using UnityEngine.UIElements;
 
 public class Pipes : MonoBehaviour
 {
+    GameManager gameManager;
+
     [SerializeField] GameObject topPipe, bottomPipe;
     [SerializeField]  float gapSize; //gap for pipe centers
     [SerializeField] float distance; // gap for center
@@ -25,10 +27,14 @@ public class Pipes : MonoBehaviour
 
     [SerializeField] float moveSpeed = 2f;
 
-
+    private void Awake()
+    {
+        gameManager = FindAnyObjectByType<GameManager>();
+    }
     private void Start()
     {
         ChangePos(0);
+        
     }
 
     private void Update()
@@ -40,10 +46,10 @@ public class Pipes : MonoBehaviour
     {
         if (collision.CompareTag("Border"))
         {
-            ChangePos(GameManager.CheckScore());
-            Debug.Log("a");
+            ChangePos(gameManager.CheckScore());
+            
         }
-        Debug.Log("a");
+        
     }
 
     private void SetDistance(int score)

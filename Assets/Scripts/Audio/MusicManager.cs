@@ -7,10 +7,9 @@ public class MusicManager : MonoBehaviour
     private static MusicManager instance;
     AudioSource audioSource;
     public AudioClip musicAudio;
-    public AudioClip winAudio;
 
     Slider slider;
-    float sValue = 0.4f;
+    float sValue = 0.8f;
 
     private void Awake()
     {
@@ -65,15 +64,4 @@ public class MusicManager : MonoBehaviour
         instance.slider = slider;
         instance.slider.onValueChanged.AddListener((value) => instance.OnValueChanged());
     }
-
-    public static void PlayCaveMusic()
-    {
-        PlayMusic(false, instance.musicAudio);
-    }
-
-    public static void PlayWinMusic()
-    {
-        PlayMusic(true, instance.winAudio);
-    }
-
 }
