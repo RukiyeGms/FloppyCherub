@@ -2186,13 +2186,13 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 27eff9e6ce5019d4dbdff40ff49356a3, type: 3}
   - name: Score
     AudioClips:
-    - {fileID: 8300000, guid: 1cff5f97279e0764399a4e8eb5bb4994, type: 3}
+    - {fileID: 8300000, guid: 0b18779ee86d59143ab5ccfd5f470280, type: 3}
   - name: HighScore
     AudioClips:
-    - {fileID: 8300000, guid: 9329466f2359c7b42b10452ad1453a98, type: 3}
+    - {fileID: 8300000, guid: d6f73d43ee0ef704198b2dcb99f41272, type: 3}
   - name: Bump
     AudioClips:
-    - {fileID: 8300000, guid: 0e38e3d3fcdc6ac448fa597b44e37541, type: 3}
+    - {fileID: 8300000, guid: 980d1b65b659abe45b4000e42c0e23a6, type: 3}
 --- !u!114 &696304121
 MonoBehaviour:
   m_ObjectHideFlags: 0
