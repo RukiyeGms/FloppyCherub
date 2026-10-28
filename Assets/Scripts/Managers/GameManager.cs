@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
+    bool flying;
     int score = 0;
 
     [SerializeField]  GameObject pipePrefab;
@@ -21,15 +21,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] TextMeshProUGUI gameOverScoreText;
 
+    [SerializeField] GameObject startGamePanel;
+
 
     void Start()
     {
-        StartCoroutine(CreatePipes(pipeCount));
         pausePanel.SetActive(false);
         UpdateScoreText();
         gameOverPanel.SetActive(false);
         scoreObject.SetActive(true);
         pauseButton.SetActive(true);
+        flying = false;
+        startGamePanel.SetActive(true);
+        Time.timeScale = 0;
         
     }
 
@@ -69,9 +73,11 @@ public class GameManager : MonoBehaviour
 
     public void OnContinue()
     {
-        Time.timeScale = 1f;
+        
         pausePanel.SetActive(false );
         pauseButton.SetActive(true);
+        if (CheckFlying()) { Time.timeScale = 1f; }
+
     }
 
     void UpdateScoreText()
@@ -86,6 +92,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        flying = false;
         gameOverScoreText.text = $"Score: {score}";
         scoreObject.SetActive(false);
         pauseButton.SetActive(false);
@@ -93,5 +100,18 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    public bool CheckFlying()
+    {
+        return flying;
+    }
 
+    
+
+    public void StartFlying()
+    {
+        Time.timeScale = 1;
+        flying = true;
+        StartCoroutine(CreatePipes(pipeCount));
+        startGamePanel.SetActive(false);
+    }
 }

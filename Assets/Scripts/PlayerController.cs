@@ -6,18 +6,20 @@ public class FlappyBirdController : MonoBehaviour
     [Header("Zıplama Ayarları")]
     [SerializeField] private float jumpForce = 5f;
 
+    GameManager gameManager;
+
     private Rigidbody2D rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     void Update()
     {
-        // Yeni Input System ile tuş kontrolü (Space tuşu veya Farenin Sol Tıkı)
-        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame ||
-            Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
+        // Yeni Input System ile tuş kontrolü (Space tuşu)
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             Jump();
         }
@@ -25,6 +27,21 @@ public class FlappyBirdController : MonoBehaviour
 
     void Jump()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        if (gameManager.CheckFlying())
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            SoundEffectManager.Play("Jump");
+
+        }
+        else { gameManager.StartFlying(); }
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Pipe"))
+        {
+            gameManager.GameOver();
+        }
     }
 }

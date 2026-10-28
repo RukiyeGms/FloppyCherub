@@ -8,7 +8,7 @@ public class Pipes : MonoBehaviour
     [SerializeField] GameObject topPipe, bottomPipe;
     [SerializeField]  float gapSize; //gap for pipe centers
     [SerializeField] float distance; // gap for center
-    [SerializeField] float scoreMult = 0.04f;
+    [SerializeField] float scoreMult = 0.1f;
 
     float MAXGAPSIZE = 26;
     float MINGAPSIZE = 22;
@@ -84,6 +84,8 @@ public class Pipes : MonoBehaviour
     {
         transform.position = new Vector2( transform.position.x - moveSpeed * Time.deltaTime , transform.position.y);
     }
+
+    
 
 
 }
