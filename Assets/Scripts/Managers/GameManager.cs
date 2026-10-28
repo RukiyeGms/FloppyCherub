@@ -20,12 +20,20 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] TextMeshProUGUI gameOverScoreText;
+    [SerializeField] TextMeshProUGUI highScoreText;
 
     [SerializeField] GameObject startGamePanel;
+    [SerializeField] GameObject newHighScoreText;
+    string playerPrefsHighScoreKeyName = "HighScore";
+    int currentHighScore;
+    bool gotNewHighScore;
 
 
     void Start()
     {
+        currentHighScore = CheckHighScore();
+        newHighScoreText.SetActive(false);
+
         pausePanel.SetActive(false);
         UpdateScoreText();
         gameOverPanel.SetActive(false);
@@ -34,6 +42,7 @@ public class GameManager : MonoBehaviour
         flying = false;
         startGamePanel.SetActive(true);
         Time.timeScale = 0;
+        gotNewHighScore = false;
         
         
     }
@@ -42,6 +51,19 @@ public class GameManager : MonoBehaviour
     {
         score++;
         UpdateScoreText();
+        if (currentHighScore < score)
+        {
+            if (!gotNewHighScore) 
+            {
+                gotNewHighScore=true;
+                StartCoroutine(ShowNewHighScoreText());
+                SoundEffectManager.Play("HighScore");
+                return;
+            }
+
+        }
+
+        SoundEffectManager.Play("Score");
     }
 
     public  int CheckScore()
@@ -93,12 +115,18 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        
+        if (score > currentHighScore) 
+        { UpdateHighScore(score);
+          currentHighScore = score;
+        }
+        newHighScoreText.SetActive(false);
+        highScoreText.text = $"High Score: {currentHighScore}";
         gameOverScoreText.text = $"Score: {score}";
         scoreObject.SetActive(false);
         pauseButton.SetActive(false);
         gameOverPanel.SetActive(true);
         Time.timeScale = 0;
+        
         
     }
 
@@ -107,15 +135,38 @@ public class GameManager : MonoBehaviour
         return flying;
     }
 
-
-
-    
-
     public void StartFlying()
     {
         Time.timeScale = 1;
         flying = true;
         StartCoroutine(CreatePipes(pipeCount));
         startGamePanel.SetActive(false);
+    }
+
+    int CheckHighScore()
+    {
+        if (PlayerPrefs.HasKey(playerPrefsHighScoreKeyName))
+        {
+            return PlayerPrefs.GetInt(playerPrefsHighScoreKeyName);
+        }
+        else 
+        {
+            PlayerPrefs.SetInt(playerPrefsHighScoreKeyName, 0);
+            return 0; 
+        }
+    
+    }
+
+    void UpdateHighScore(int highscore)
+    {
+        PlayerPrefs.SetInt(playerPrefsHighScoreKeyName , highscore);
+    }
+
+    IEnumerator ShowNewHighScoreText()
+    {
+        newHighScoreText.SetActive(true);
+        yield return new WaitForSecondsRealtime(1.5f);
+        newHighScoreText.SetActive(false);
+
     }
 }

@@ -48,6 +48,7 @@ public class FlappyBirdController : MonoBehaviour
         {
             gameManager.GameOver();
             isDead = true;
+            SoundEffectManager.Play("Bump");
         }
     }
 }
