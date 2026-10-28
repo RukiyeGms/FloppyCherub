@@ -63,7 +63,6 @@ public class GameManager : MonoBehaviour
 
         }
 
-        SoundEffectManager.Play("Score");
     }
 
     public  int CheckScore()
