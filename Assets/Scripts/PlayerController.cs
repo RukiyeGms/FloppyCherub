@@ -7,6 +7,7 @@ public class FlappyBirdController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
 
     GameManager gameManager;
+    bool isDead;
 
     private Rigidbody2D rb;
 
@@ -14,6 +15,7 @@ public class FlappyBirdController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gameManager = FindAnyObjectByType<GameManager>();
+        isDead = false;
     }
 
     void Update()
@@ -29,8 +31,11 @@ public class FlappyBirdController : MonoBehaviour
     {
         if (gameManager.CheckFlying())
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            SoundEffectManager.Play("Jump");
+            if (!isDead) {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                SoundEffectManager.Play("Jump");
+            }
+            
 
         }
         else { gameManager.StartFlying(); }
@@ -42,6 +47,7 @@ public class FlappyBirdController : MonoBehaviour
         if (collision.gameObject.CompareTag("Pipe"))
         {
             gameManager.GameOver();
+            isDead = true;
         }
     }
 }

@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         startGamePanel.SetActive(true);
         Time.timeScale = 0;
         
+        
     }
 
     public void ScoreUP()
@@ -92,18 +93,21 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        flying = false;
+        
         gameOverScoreText.text = $"Score: {score}";
         scoreObject.SetActive(false);
         pauseButton.SetActive(false);
         gameOverPanel.SetActive(true);
         Time.timeScale = 0;
+        
     }
 
     public bool CheckFlying()
     {
         return flying;
     }
+
+
 
     
 
